@@ -109,6 +109,7 @@ def get_dataset_name(config):
         LVISV1Dataset='LVIS v1',
         VOCDataset='Pascal VOC',
         WIDERFaceDataset='WIDER Face',
+        StrawberryDiseaseDataset='Strawberry Disease'
         OpenImagesDataset='OpenImagesDataset',
         OpenImagesChallengeDataset='OpenImagesChallengeDataset',
         Objects365V1Dataset='Objects365 v1',

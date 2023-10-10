@@ -26,6 +26,7 @@ from .samplers import (AspectRatioBatchSampler, ClassAwareSampler,
 from .utils import get_loading_pipeline
 from .voc import VOCDataset
 from .wider_face import WIDERFaceDataset
+from .strawberry_disease import StrawberryDiseaseDataset
 from .xml_style import XMLDataset
 from .youtube_vis_dataset import YouTubeVISDataset
 

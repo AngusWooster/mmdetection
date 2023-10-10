@@ -492,6 +492,7 @@ dataset_aliases = {
     'coco': ['coco', 'mscoco', 'ms_coco'],
     'coco_panoptic': ['coco_panoptic', 'panoptic'],
     'wider_face': ['WIDERFaceDataset', 'wider_face', 'WIDERFace'],
+    'strawberry_disease':['StrawberryDiseaseDataset'],
     'cityscapes': ['cityscapes'],
     'oid_challenge': ['oid_challenge', 'openimages_challenge'],
     'oid_v6': ['oid_v6', 'openimages_v6'],
