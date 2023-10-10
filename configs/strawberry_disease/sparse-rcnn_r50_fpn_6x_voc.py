@@ -1,6 +1,6 @@
 _base_ = [
     '../_base_/datasets/strawberry_disease.py',
-    '../_base_/schedules/schedule_1x.py',
+    '../_base_/schedules/schedule_6x.py',
     '../_base_/default_runtime.py'
 ]
 num_stages = 6
