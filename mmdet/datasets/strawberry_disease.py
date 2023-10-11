@@ -43,7 +43,8 @@ class StrawberryDiseaseDataset(XMLDataset):
             file_name = osp.join(self.data_root, self.img_subdir, f'{img_id}.jpg')
             xml_path = osp.join(self.data_root, self.ann_subdir, f'{img_id}.xml')
 
-            print(f"file: {file_name}\nxml: {xml_path}")
+            ## debug
+            # print(f"file: {file_name}\nxml: {xml_path}")
             raw_img_info = {}
             raw_img_info['img_id'] = img_id
             raw_img_info['file_name'] = file_name
