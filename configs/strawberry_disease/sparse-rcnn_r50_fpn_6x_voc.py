@@ -5,6 +5,9 @@ _base_ = [
 ]
 num_stages = 6
 num_proposals = 100
+## for strawberry_disease dataset
+num_classes = 7
+
 model = dict(
     type='SparseRCNN',
     data_preprocessor=dict(
