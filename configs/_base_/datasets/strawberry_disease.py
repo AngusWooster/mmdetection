@@ -5,7 +5,7 @@ TRAINING_DATA_ROOT = data_root + 'train'
 VALIDATION_DATA_ROOT = data_root + 'valid'
 TEST_DATA_ROOT = data_root + 'test'
 
-BATCH_SIZE = 20
+BATCH_SIZE = 28
 backend_args = None
 
 img_scale = (640, 640)  # VGA resolution
