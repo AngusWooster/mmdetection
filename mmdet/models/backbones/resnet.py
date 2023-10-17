@@ -8,7 +8,7 @@ from mmengine.model import BaseModule
 from torch.nn.modules.batchnorm import _BatchNorm
 
 from mmdet.registry import MODELS
-from ..layers import ResLayer
+from ..layers import ResLayer, CBAM
 
 
 class BasicBlock(BaseModule):
@@ -22,6 +22,7 @@ class BasicBlock(BaseModule):
                  downsample=None,
                  style='pytorch',
                  with_cp=False,
+                 with_cbam=False,
                  conv_cfg=None,
                  norm_cfg=dict(type='BN'),
                  dcn=None,
@@ -53,6 +54,10 @@ class BasicBlock(BaseModule):
         self.stride = stride
         self.dilation = dilation
         self.with_cp = with_cp
+        self.with_cbam = with_cbam
+
+        if self.with_cbam == True:
+            self.cbam = CBAM(planes)
 
     @property
     def norm1(self):
@@ -76,6 +81,10 @@ class BasicBlock(BaseModule):
 
             out = self.conv2(out)
             out = self.norm2(out)
+
+            ''' Implement CBAM module '''
+            if self.with_cbam == True:
+                out = self.cbam(out)
 
             if self.downsample is not None:
                 identity = self.downsample(x)
@@ -105,6 +114,7 @@ class Bottleneck(BaseModule):
                  downsample=None,
                  style='pytorch',
                  with_cp=False,
+                 with_cbam=False,
                  conv_cfg=None,
                  norm_cfg=dict(type='BN'),
                  dcn=None,
@@ -129,6 +139,7 @@ class Bottleneck(BaseModule):
         self.dilation = dilation
         self.style = style
         self.with_cp = with_cp
+        self.with_cbam = with_cbam
         self.conv_cfg = conv_cfg
         self.norm_cfg = norm_cfg
         self.dcn = dcn
@@ -162,6 +173,10 @@ class Bottleneck(BaseModule):
         self.norm2_name, norm2 = build_norm_layer(norm_cfg, planes, postfix=2)
         self.norm3_name, norm3 = build_norm_layer(
             norm_cfg, planes * self.expansion, postfix=3)
+
+        if self.with_cbam == True:
+            self.cbam = CBAM(planes * self.expansion)
+
 
         self.conv1 = build_conv_layer(
             conv_cfg,
@@ -282,6 +297,10 @@ class Bottleneck(BaseModule):
             out = self.conv3(out)
             out = self.norm3(out)
 
+            ''' Implement CBAM module '''
+            if self.with_cbam == True:
+                out = self.cbam(out)
+
             if self.with_plugins:
                 out = self.forward_plugin(out, self.after_conv3_plugin_names)
 
@@ -386,6 +405,7 @@ class ResNet(BaseModule):
                  stage_with_dcn=(False, False, False, False),
                  plugins=None,
                  with_cp=False,
+                 with_cbam=False,
                  zero_init_residual=True,
                  pretrained=None,
                  init_cfg=None):
@@ -476,6 +496,7 @@ class ResNet(BaseModule):
                 style=self.style,
                 avg_down=self.avg_down,
                 with_cp=with_cp,
+                with_cbam=with_cbam,
                 conv_cfg=conv_cfg,
                 norm_cfg=norm_cfg,
                 dcn=dcn,
