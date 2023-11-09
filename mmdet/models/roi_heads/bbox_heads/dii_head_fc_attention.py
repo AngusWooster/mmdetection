@@ -16,6 +16,25 @@ from mmdet.registry import MODELS
 from mmdet.utils import ConfigType, OptConfigType, reduce_mean
 from .bbox_head import BBoxHead
 
+class Adapter(nn.Module):
+    def __init__(self, D_features, mlp_ratio=0.25, act_layer=nn.GELU, skip_connect=True):
+        super().__init__()
+        self.skip_connect = skip_connect
+        D_hidden_features = int(D_features * mlp_ratio)
+        self.act = act_layer()
+        self.D_fc1 = nn.Linear(D_features, D_hidden_features)
+        self.D_fc2 = nn.Linear(D_hidden_features, D_features)
+
+    def forward(self, x):
+        # x is (BT, HW+1, D)
+        xs = self.D_fc1(x)
+        xs = self.act(xs)
+        xs = self.D_fc2(xs)
+        if self.skip_connect:
+            x = x + xs
+        else:
+            x = xs
+        return x
 
 @MODELS.register_module()
 class DIIHead_FC_Attention(BBoxHead):
@@ -86,6 +105,8 @@ class DIIHead_FC_Attention(BBoxHead):
 
         ##############################################################################
         # Angus added
+        self.adapter = Adapter(in_channels)
+        self.avg_pool = nn.AdaptiveAvgPool2d(1)
         self.fc_attention = MultiheadAttention(in_channels, num_heads, dropout)
         self.fc_attention_norm = build_norm_layer(dict(type='LN'), in_channels)[1]
         ##############################################################################
@@ -191,7 +212,10 @@ class DIIHead_FC_Attention(BBoxHead):
 
         #################################################################
         # Angus tries to do something !!!
-        obj_feat = self.fc_attention_norm(self.fc_attention(obj_feat))
+        fc_obj_feat = self.adapter(self.fc_attention(obj_feat))
+        fc_obj_feat = self.fc_attention_norm(fc_obj_feat)
+        fc_obj_feat = self.avg_pool(fc_obj_feat)
+        obj_feat = obj_feat + fc_obj_feat
         ##############################################################################
         # FFN
         obj_feat = self.ffn_norm(self.ffn(obj_feat))
