@@ -8,7 +8,7 @@ from mmengine.model import BaseModule
 from torch.nn.modules.batchnorm import _BatchNorm
 
 from mmdet.registry import MODELS
-from ..layers import ResLayer, CBAM
+from ..layers import ResLayer, CBAM, CABAM
 
 
 class BasicBlock(BaseModule):
@@ -175,7 +175,7 @@ class Bottleneck(BaseModule):
             norm_cfg, planes * self.expansion, postfix=3)
 
         if self.with_cbam == True:
-            self.cbam = CBAM(planes * self.expansion)
+            self.cbam = CABAM(planes * self.expansion)
 
 
         self.conv1 = build_conv_layer(

@@ -16,7 +16,7 @@ from .positional_encoding import (LearnedPositionalEncoding,
                                   SinePositionalEncoding3D)
 from .res_layer import ResLayer, SimplifiedBasicBlock
 from .se_layer import ChannelAttention, DyReLU, SELayer
-from .cbam import CBAM
+from .cbam import CBAM, CABAM
 # yapf: disable
 from .transformer import (MLP, AdaptivePadding, CdnQueryGenerator,
                           ConditionalAttention,
