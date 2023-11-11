@@ -17,7 +17,7 @@ from mmdet.utils import ConfigType, OptConfigType, reduce_mean
 from .bbox_head import BBoxHead
 
 class Adapter(nn.Module):
-    def __init__(self, D_features, mlp_ratio=0.25, act_layer=nn.GELU, skip_connect=True):
+    def __init__(self, D_features, mlp_ratio=0.75, act_layer=nn.GELU, skip_connect=True):
         super().__init__()
         self.skip_connect = skip_connect
         D_hidden_features = int(D_features * mlp_ratio)
@@ -212,8 +212,9 @@ class DIIHead_FC_Attention(BBoxHead):
 
         #################################################################
         # Angus tries to do something !!!
-        fc_obj_feat = self.adapter(self.fc_attention(obj_feat))
-        fc_obj_feat = self.fc_attention_norm(fc_obj_feat)
+        # fc_obj_feat = self.adapter(self.fc_attention(obj_feat))
+        # fc_obj_feat = self.fc_attention_norm(fc_obj_feat)
+        fc_obj_feat = self.adapter(obj_feat)
         fc_obj_feat = self.avg_pool(fc_obj_feat)
         obj_feat = obj_feat + fc_obj_feat
         ##############################################################################

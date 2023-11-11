@@ -477,7 +477,7 @@ class ResNet(BaseModule):
         self._make_stem_layer(in_channels, stem_channels)
 
         self.with_cbam = with_cbam
-        self.cbams = nn.ModuleList()
+        # self.cbams = nn.ModuleList()
         self.res_layers = []
         for i, num_blocks in enumerate(self.stage_blocks):
             stride = strides[i]
@@ -498,7 +498,7 @@ class ResNet(BaseModule):
                 style=self.style,
                 avg_down=self.avg_down,
                 with_cp=with_cp,
-                with_cbam=False,
+                with_cbam=self.with_cbam,
                 conv_cfg=conv_cfg,
                 norm_cfg=norm_cfg,
                 dcn=dcn,
@@ -509,10 +509,10 @@ class ResNet(BaseModule):
             self.add_module(layer_name, res_layer)
             self.res_layers.append(layer_name)
 
-            ''' Declare CBAM module '''
-            if self.with_cbam == True:
-                cbam = CBAM(self.inplanes)
-                self.cbams.append(cbam)
+            # ''' Declare CBAM module '''
+            # if self.with_cbam == True:
+            #     cbam = CBAM(self.inplanes)
+            #     self.cbams.append(cbam)
 
 
         self._freeze_stages()
@@ -671,9 +671,9 @@ class ResNet(BaseModule):
             res_layer = getattr(self, layer_name)
 
             x = res_layer(x)
-            """ Add CBAM after each layer """
-            if self.with_cbam == True:
-                x = self.cbams[i](x)
+            # """ Add CBAM after each layer """
+            # if self.with_cbam == True:
+            #     x = self.cbams[i](x)
 
             if i in self.out_indices:
                 outs.append(x)
