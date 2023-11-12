@@ -50,7 +50,7 @@ model = dict(
             featmap_strides=[4, 8, 16, 32]),
         bbox_head=[
             dict(
-                type='DIIHead_FC_Attention',
+                type='DIIHead_Adapter',
                 num_classes=num_classes,
                 num_ffn_fcs=2,
                 num_heads=8,

@@ -37,7 +37,7 @@ class Adapter(nn.Module):
         return x
 
 @MODELS.register_module()
-class DIIHead_FC_Attention(BBoxHead):
+class DIIHead_Adapter(BBoxHead):
     r"""Dynamic Instance Interactive Head for `Sparse R-CNN: End-to-End Object
     Detection with Learnable Proposals <https://arxiv.org/abs/2011.12450>`_
 
@@ -105,10 +105,7 @@ class DIIHead_FC_Attention(BBoxHead):
 
         ##############################################################################
         # Angus added
-        self.adapter = Adapter(in_channels)
-        self.avg_pool = nn.AdaptiveAvgPool2d(1)
-        self.fc_attention = MultiheadAttention(in_channels, num_heads, dropout)
-        self.fc_attention_norm = build_norm_layer(dict(type='LN'), in_channels)[1]
+        self.adapter = Adapter(in_channels, skip_connect=False)
         ##############################################################################
         self.instance_interactive_conv = MODELS.build(dynamic_conv_cfg)
         self.instance_interactive_conv_dropout = nn.Dropout(dropout)
@@ -212,11 +209,7 @@ class DIIHead_FC_Attention(BBoxHead):
 
         #################################################################
         # Angus tries to do something !!!
-        fc_obj_feat = self.adapter(self.fc_attention(obj_feat))
-        fc_obj_feat = self.fc_attention_norm(fc_obj_feat)
-        fc_obj_feat = self.adapter(fc_obj_feat)
-        fc_obj_feat = self.avg_pool(fc_obj_feat)
-        obj_feat = obj_feat + fc_obj_feat
+        obj_feat = self.adapter(obj_feat)
         ##############################################################################
         # FFN
         obj_feat = self.ffn_norm(self.ffn(obj_feat))
