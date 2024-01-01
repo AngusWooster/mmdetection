@@ -1,6 +1,6 @@
 # dataset settings
 dataset_type = 'StrawberryDiseaseDataset'
-data_root = 'data/strawberry_disease/2023_v2/'
+data_root = 'data/strawberry_disease/2024_v1/'
 TRAINING_DATA_ROOT = data_root + 'train'
 VALIDATION_DATA_ROOT = data_root + 'valid'
 TEST_DATA_ROOT = data_root + 'test'
