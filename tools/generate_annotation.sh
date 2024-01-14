@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
-source_path=$1
-output_path=$2
+source_path=$1/images
+output_path=$1
 
 output_file_name='annotation.txt'
 
