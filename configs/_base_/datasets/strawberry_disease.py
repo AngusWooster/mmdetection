@@ -8,7 +8,7 @@ TEST_DATA_ROOT = data_root + 'test'
 BATCH_SIZE = 28
 backend_args = None
 
-img_scale = (640, 640)  # VGA resolution
+img_scale = (224, 224)  # VGA resolution
 
 train_pipeline = [
     dict(type='LoadImageFromFile', backend_args=backend_args),
