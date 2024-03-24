@@ -1,0 +1,2 @@
+# benchmark
+python -m torch.distributed.launch --nproc_per_node=1 --master_port=29500 tools/analysis_tools/benchmark.py configs/strawberry_disease/sparse-rcnn_r50_cbam_fpn_DiiHeadAdapter_6x_voc.py --checkpoint work_dirs/sparse-rcnn_r50_cbam_fpn_DiiHeadAdapter_6x_voc/best_pascal_voc_mAP_epoch_14.pth --launcher pytorch
