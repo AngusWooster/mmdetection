@@ -1,4 +1,4 @@
-_base_ = './sparse-rcnn_r50_cbam_fpn_6x_voc.py'
+_base_ = './sparse-rcnn_r50_cbam_fpn_voc.py'
 
 model = dict(
     backbone=dict(
