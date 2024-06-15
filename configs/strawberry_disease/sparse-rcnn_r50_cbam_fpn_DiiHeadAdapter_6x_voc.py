@@ -102,5 +102,5 @@ model = dict(
 # optimizer
 optim_wrapper = dict(
     optimizer=dict(
-        _delete_=True, type='AdamW', lr=0.000025, weight_decay=0.0001),
+        type='AdamW', lr=0.000025, weight_decay=0.0001),
     clip_grad=dict(max_norm=1, norm_type=2))

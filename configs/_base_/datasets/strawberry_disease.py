@@ -1,14 +1,14 @@
 # dataset settings
 dataset_type = 'StrawberryDiseaseDataset'
-data_root = 'data/strawberry_disease/2024_v1/'
+data_root = 'data/strawberry_disease/strawberry_disease/'
 TRAINING_DATA_ROOT = data_root + 'train'
 VALIDATION_DATA_ROOT = data_root + 'valid'
 TEST_DATA_ROOT = data_root + 'test'
 
-BATCH_SIZE = 28
+BATCH_SIZE = 24
 backend_args = None
 
-img_scale = (224, 224)  # VGA resolution
+img_scale = (640, 640)  # VGA resolution
 
 train_pipeline = [
     dict(type='LoadImageFromFile', backend_args=backend_args),
